@@ -120,6 +120,7 @@ export default async function handler(req, res) {
           }
         });
       });
+      
       console.log("verified");
 
       await new Promise((resolve, reject) => {

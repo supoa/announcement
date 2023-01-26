@@ -115,15 +115,15 @@ export default function Home() {
   //   })
   // );
 
-  // const requests2 = users.map((user) => sendMail(user.name, user.email));
+  const requests2 = () => users.map((user) => sendMail(user.name, user.email));
 
-  // const handleMultiple = () => {
-  //   axios.all(requests2).then((responses) => {
-  //     responses.forEach((resp) => {
-  //       console.log(resp);
-  //     });
-  //   });
-  // };
+  const handleMultiple = () => {
+    axios.all(requests2()).then((responses) => {
+      responses.forEach((resp) => {
+        console.log(resp);
+      });
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -157,24 +157,12 @@ export default function Home() {
             minWidth: "100px",
             textAlign: "center",
           }}
-          onClick={() => sendMail(users[0].name, users[0].email)}
+          // onClick={() => sendMail(users[0].name, users[0].email)}
+          onClick={() => handleMultiple()}
         >
           Post To Multiple User
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
