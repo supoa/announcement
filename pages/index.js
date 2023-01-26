@@ -27,49 +27,6 @@ const users = [
     email: "sohanurrahoman02@gmail.com",
     name: "test user",
   },
-  {
-    email: "ranodm@gmail.com",
-    name: "random",
-  },
-  { name: "sohan", email: "sohanur01744@gmail.com" },
-  {
-    name: "sohanur25800",
-    email: "sohanur25800@gmail.com",
-  },
-  {
-    email: "sohanurrahoman02@gmail.com",
-    name: "test user",
-  },
-  {
-    email: "ranodm@gmail.com",
-    name: "random",
-  },
-  { name: "sohan", email: "sohanur01744@gmail.com" },
-  {
-    name: "sohanur25800",
-    email: "sohanur25800@gmail.com",
-  },
-  {
-    email: "sohanurrahoman02@gmail.com",
-    name: "test user",
-  },
-  {
-    email: "ranodm@gmail.com",
-    name: "random",
-  },
-  { name: "sohan", email: "sohanur01744@gmail.com" },
-  {
-    name: "sohanur25800",
-    email: "sohanur25800@gmail.com",
-  },
-  {
-    email: "sohanurrahoman02@gmail.com",
-    name: "test user",
-  },
-  {
-    email: "ranodm@gmail.com",
-    name: "random",
-  },
 ];
 
 export default function Home() {
@@ -125,6 +82,18 @@ export default function Home() {
     });
   };
 
+  const handleMultipleWithFor = () => {
+    users.forEach((user) => {
+      axios
+        .put("/api/hello", {
+          content,
+          name: user.name,
+          email: user.email,
+        })
+        .then((resp) => console.log({ resp }));
+    });
+  };
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -158,7 +127,7 @@ export default function Home() {
             textAlign: "center",
           }}
           // onClick={() => sendMail(users[0].name, users[0].email)}
-          onClick={() => handleMultiple()}
+          onClick={() => handleMultipleWithFor()}
         >
           Post To Multiple User
         </div>

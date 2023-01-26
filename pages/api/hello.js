@@ -62,23 +62,6 @@ const users = [
     email: "sohanurrahoman02@gmail.com",
     name: "test user",
   },
-  {
-    email: "ranodm@gmail.com",
-    name: "random",
-  },
-  { name: "sohan", email: "sohanur01744@gmail.com" },
-  {
-    name: "sohanur25800",
-    email: "sohanur25800@gmail.com",
-  },
-  {
-    email: "sohanurrahoman02@gmail.com",
-    name: "test user",
-  },
-  {
-    email: "ranodm@gmail.com",
-    name: "random",
-  },
 ];
 
 const mailOptionForAnnouncement = (user, content) => {
@@ -107,6 +90,14 @@ export default async function handler(req, res) {
 
       var recipient = users[index];
       console.log({ recipient });
+      function later(delay) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, delay);
+          console.log("delayed");
+        });
+      }
+
+      later("5000");
 
       await new Promise((resolve, reject) => {
         // verify connection configuration
@@ -120,7 +111,7 @@ export default async function handler(req, res) {
           }
         });
       });
-      
+
       console.log("verified");
 
       await new Promise((resolve, reject) => {
@@ -175,6 +166,15 @@ export default async function handler(req, res) {
     let Failed = [];
     let Success = [];
     const recipient = { name, email };
+
+    function later(delay) {
+      return new Promise(function (resolve) {
+        setTimeout(resolve, delay);
+        console.log("delayed");
+      });
+    }
+
+    later("5000");
 
     await new Promise((resolve, reject) => {
       // verify connection configuration
