@@ -97,7 +97,7 @@ const users = [
 
 export default function Home() {
   const [content, setContent] = useState("A Test Announcement");
-
+  const [sent, setSent] = useState(0);
   const handleClick = async () => {
     try {
       const { data } = await axios.post("/api/hello", {
@@ -156,14 +156,33 @@ export default function Home() {
           name: user.name,
           email: user.email,
         })
-        .then((resp) => console.log({ resp }));
+        .then((resp) => setSent((prev) => prev + 1));
     });
+  };
+
+  const handleMultipleWithRec = (index) => {
+    if (index >= users.length) {
+      return;
+    }
+    const user = users[index];
+    axios
+      .put("/api/hello", {
+        content,
+        name: user.name,
+        email: user.email,
+      })
+      .then((resp) => {
+        setSent((prev) => prev + 1);
+        handleMultipleWithRec(index + 1);
+      });
   };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <p>There will a announcment new</p>
+        <p>Number of Mail Sent {sent}</p>
+
         <form>
           <input
             type="text"
@@ -196,6 +215,19 @@ export default function Home() {
           onClick={() => handleMultipleWithFor()}
         >
           Post To Multiple User
+        </div>
+        <div
+          style={{
+            border: "1px solid black",
+            padding: "3px 10px",
+            margin: "10px 5px",
+            minWidth: "100px",
+            textAlign: "center",
+          }}
+          // onClick={() => sendMail(users[0].name, users[0].email)}
+          onClick={() => handleMultipleWithRec(0)}
+        >
+          Post using recursion
         </div>
       </main>
     </div>
