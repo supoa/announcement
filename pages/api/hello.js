@@ -106,6 +106,7 @@ export default async function handler(req, res) {
       }
 
       var recipient = users[index];
+      console.log({ recipient });
 
       await new Promise((resolve, reject) => {
         // verify connection configuration
@@ -119,6 +120,7 @@ export default async function handler(req, res) {
           }
         });
       });
+      console.log("verified");
 
       await new Promise((resolve, reject) => {
         // send mail
