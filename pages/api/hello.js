@@ -107,27 +107,59 @@ export default async function handler(req, res) {
 
       var recipient = users[index];
 
-      await transporter.sendMail(
-        mailOptionForAnnouncement(recipient, content),
-        function (error, info) {
+      await new Promise((resolve, reject) => {
+        // verify connection configuration
+        transporter.verify(function (error, success) {
           if (error) {
             console.log(error);
-            Failed.push(recipient.email);
-            console.log(Failed);
+            reject(error);
           } else {
-            console.log(
-              "Email sent: " + info.response + "to" + " " + recipient.email
-            );
-
-            Success.push(recipient);
-            console.log({ success: Success.length });
+            console.log("Server is ready to take our messages");
+            resolve(success);
           }
+        });
+      });
 
-          setTimeout(function () {
+      await new Promise((resolve, reject) => {
+        // send mail
+        transporter.sendMail(
+          mailOptionForAnnouncement(recipient, content),
+          (err, info) => {
+            if (err) {
+              console.error(err);
+              reject(err);
+            } else {
+              console.log(info);
+              resolve(info);
+            }
+            // setTimeout(function () {
             sendMail(index + 1);
-          }, 10000);
-        }
-      );
+            // }, 10000);
+          }
+        );
+      });
+
+      // transporter.sendMail(
+      //   mailOptionForAnnouncement(recipient, content),
+      //   function (error, info) {
+      //     if (error) {
+      //       console.log(error);
+      //       Failed.push(recipient.email);
+      //       console.log(Failed);
+      //     } else {
+      //       console.log(
+      //         "Email sent: " + info.response + "to" + " " + recipient.email
+      //       );
+
+      //       Success.push(recipient);
+      //       console.log({ success: Success.length });
+      //     }
+
+      //     setTimeout(function () {
+      //       sendMail(index + 1);
+      //     }, 10000);
+      //   }
+      // );
     };
 
     sendMail(0);
@@ -140,23 +172,53 @@ export default async function handler(req, res) {
     let Failed = [];
     let Success = [];
     const recipient = { name, email };
-    transporter.sendMail(
-      mailOptionForAnnouncement(recipient, content),
-      function (error, info) {
+
+    await new Promise((resolve, reject) => {
+      // verify connection configuration
+      transporter.verify(function (error, success) {
         if (error) {
           console.log(error);
-          Failed.push(recipient.email);
-          console.log(Failed);
+          reject(error);
         } else {
-          console.log(
-            "Email sent: " + info.response + "to" + " " + recipient.email
-          );
-
-          Success.push(recipient);
-          console.log({ success: Success.length });
+          console.log("Server is ready to take our messages");
+          resolve(success);
         }
-      }
-    );
+      });
+    });
+
+    await new Promise((resolve, reject) => {
+      // send mail
+      transporter.sendMail(
+        mailOptionForAnnouncement(recipient, content),
+        (err, info) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            console.log(info);
+            resolve(info);
+          }
+        }
+      );
+    });
+
+    // transporter.sendMail(
+    //   mailOptionForAnnouncement(recipient, content),
+    //   function (error, info) {
+    //     if (error) {
+    //       console.log(error);
+    //       Failed.push(recipient.email);
+    //       console.log(Failed);
+    //     } else {
+    //       console.log(
+    //         "Email sent: " + info.response + "to" + " " + recipient.email
+    //       );
+
+    //       Success.push(recipient);
+    //       console.log({ success: Success.length });
+    //     }
+    //   }
+    // );
 
     res.status(200).json({ name: "John Doe" });
   }
