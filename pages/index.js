@@ -163,7 +163,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <p>There will a announcment</p>
+        <p>There will a announcment new</p>
         <form>
           <input
             type="text"
