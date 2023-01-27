@@ -177,6 +177,10 @@ export default async function handler(req, res) {
     let Failed = [];
     let Success = [];
     const recipient = { name, email };
+    // if (!validate(email.trim())) {
+    //   res.status(200).send({ message: "Invalid Email" });
+    //   return;
+    // }
 
     function later(delay) {
       return new Promise(function (resolve) {
@@ -185,14 +189,16 @@ export default async function handler(req, res) {
       });
     }
 
-    later("5000");
+    // later("5000");
 
     await new Promise((resolve, reject) => {
       // verify connection configuration
       transporter.verify(function (error, success) {
         if (error) {
           console.log(error);
-          reject(error);
+          res.status(200).send({ message: "Failed" });
+          return;
+          // reject(error);
         } else {
           console.log("Server is ready to take our messages");
           resolve(success);
@@ -206,8 +212,9 @@ export default async function handler(req, res) {
         mailOptionForAnnouncement(recipient, content),
         (err, info) => {
           if (err) {
-            console.error(err);
-            reject(err);
+            console.log(err);
+            res.status(200).send({ message: "Failed to Send Email" });
+            return;
           } else {
             console.log(info);
             resolve(info);

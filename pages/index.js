@@ -580,7 +580,7 @@ export default function Home() {
   };
 
   const handleMultipleWithFor = () => {
-    users.forEach((user) => {
+    users.slice(30, users.length).forEach((user) => {
       axios
         .put("/api/hello", {
           content,
