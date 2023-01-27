@@ -528,6 +528,7 @@ const users = [
 export default function Home() {
   const [content, setContent] = useState("A Test Announcement");
   const [sent, setSent] = useState(0);
+  const [nums, setNums] = useState(0);
 
   const handleClick = async () => {
     try {
@@ -591,6 +592,29 @@ export default function Home() {
     });
   };
 
+  const handleMultipleWitInterval = () => {
+    let left = users.length;
+    let count = 0;
+
+    let intervalId = setInterval(() => {
+      const user = users[count];
+      axios
+        .put("/api/hello", {
+          content,
+          name: user.name,
+          email: user.email,
+        })
+        .then((resp) => {
+          setSent((prev) => prev + 1);
+          count++;
+          setNums(count);
+        });
+      if (count >= users.length) {
+        clearInterval(intervalId);
+      }
+    }, 5000);
+  };
+
   const handleMultipleWithRec = (index) => {
     if (index >= users.length) {
       return;
@@ -614,6 +638,7 @@ export default function Home() {
         <p>There will a announcment new</p>
         <p>Number of Mail Sent {sent}</p>
         <p>Total users :{users.length}</p>
+        <p>Total count :{nums}</p>
 
         <form>
           <input
@@ -660,6 +685,19 @@ export default function Home() {
           onClick={() => handleMultipleWithRec(0)}
         >
           Post using recursion
+        </div>
+        <div
+          style={{
+            border: "1px solid black",
+            padding: "3px 10px",
+            margin: "10px 5px",
+            minWidth: "100px",
+            textAlign: "center",
+          }}
+          // onClick={() => sendMail(users[0].name, users[0].email)}
+          onClick={() => handleMultipleWitInterval()}
+        >
+          post Using Inerval{" "}
         </div>
       </main>
     </div>
