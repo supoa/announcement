@@ -927,6 +927,6 @@ export default async function handler(req, res) {
     // send_mail("john ", "ttttljslgjsg@gmail.com");
     // send_mail(req.body.name, req.body.email);
     send_mail(0);
-    // return res.status(200).send({ message: "Mail sent" });
+    return res.status(200).send({ message: "Mail sent" });
   }
 }
