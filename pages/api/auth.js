@@ -886,7 +886,7 @@ function send_mail(current, time) {
 
           setTimeout(function () {
             console.log(
-              "This will be executed after 2000 milliseconds (2 seconds)."
+              "This will be executed after 30000 milliseconds (300 seconds)."
             );
 
             send_mail(count);
@@ -894,7 +894,6 @@ function send_mail(current, time) {
           clearInterval(intervalId);
         } else {
           console.log("Sucess ", result);
-          delay = 1000;
         }
       }
     );

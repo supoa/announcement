@@ -108,7 +108,7 @@ export default async function handler(req, res) {
       transporter.verify(function (error, success) {
         if (error) {
           console.log(error);
-          res.status(200).send({ message: "Failed" });
+          res.status(400).send({ message: "Failed" });
           return;
           // reject(error);
         } else {
