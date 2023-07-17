@@ -529,6 +529,7 @@ export default function Home() {
   const [content, setContent] = useState("A Test Announcement");
   const [sent, setSent] = useState(0);
   const [nums, setNums] = useState(0);
+  const [delay, setDelay] = useState(5000);
 
   const handleClick = async () => {
     try {
@@ -553,45 +554,6 @@ export default function Home() {
     }
   };
 
-  // const handleMultiple = async () => {
-  //   console.log("runnign");
-  //   try {
-  //     users.forEach(async (user) => await sendMail(user.name, user.email));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const requests = users.map((user) =>
-  //   axios.put("/api/hello", {
-  //     content,
-  //     name: user.name,
-  //     email: user.email,
-  //   })
-  // );
-
-  const requests2 = () => users.map((user) => sendMail(user.name, user.email));
-
-  const handleMultiple = () => {
-    axios.all(requests2()).then((responses) => {
-      responses.forEach((resp) => {
-        console.log(resp);
-      });
-    });
-  };
-
-  const handleMultipleWithFor = () => {
-    users.slice(30, users.length).forEach((user) => {
-      axios
-        .put("/api/hello", {
-          content,
-          name: user.name,
-          email: user.email,
-        })
-        .then((resp) => setSent((prev) => prev + 1));
-    });
-  };
-
   const handleMultipleWitInterval = () => {
     let left = users.length;
     let count = 0;
@@ -612,33 +574,16 @@ export default function Home() {
       if (count >= users.length) {
         clearInterval(intervalId);
       }
-    }, 5000);
-  };
-
-  const handleMultipleWithRec = (index) => {
-    if (index >= users.length) {
-      return;
-    }
-    const user = users[index];
-    axios
-      .put("/api/hello", {
-        content,
-        name: user.name,
-        email: user.email,
-      })
-      .then((resp) => {
-        setSent((prev) => prev + 1);
-        handleMultipleWithRec(index + 1);
-      });
+    }, delay);
   };
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <p>There will a announcment new</p>
         <p>Number of Mail Sent {sent}</p>
         <p>Total users :{users.length}</p>
         <p>Total count :{nums}</p>
+        <p>delay:{delay} ms</p>
 
         <form>
           <input
@@ -647,45 +592,14 @@ export default function Home() {
             style={{ padding: "5px" }}
             onChange={(e) => setContent(e.target.value)}
           />
+          <input
+            type="number"
+            placeholder="time"
+            style={{ padding: "5px" }}
+            onChange={(e) => setDelay(e.target.value)}
+          />
         </form>
-        <div
-          style={{
-            border: "1px solid black",
-            padding: "3px 10px",
-            margin: "10px 5px",
-            minWidth: "100px",
-            textAlign: "center",
-          }}
-          onClick={() => handleClick()}
-        >
-          Post
-        </div>
-        <div
-          style={{
-            border: "1px solid black",
-            padding: "3px 10px",
-            margin: "10px 5px",
-            minWidth: "100px",
-            textAlign: "center",
-          }}
-          // onClick={() => sendMail(users[0].name, users[0].email)}
-          onClick={() => handleMultipleWithFor()}
-        >
-          Post To Multiple User
-        </div>
-        <div
-          style={{
-            border: "1px solid black",
-            padding: "3px 10px",
-            margin: "10px 5px",
-            minWidth: "100px",
-            textAlign: "center",
-          }}
-          // onClick={() => sendMail(users[0].name, users[0].email)}
-          onClick={() => handleMultipleWithRec(0)}
-        >
-          Post using recursion
-        </div>
+
         <div
           style={{
             border: "1px solid black",
